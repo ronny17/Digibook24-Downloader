@@ -117,8 +117,7 @@ async function downloadAndDecryptFile(url) {
     if(dataFile != null)
         sessionID = dataFile;
     else
-        sessionID = "eEx2NFYwYkNnY3AzRVZFVEZyandGVUxxcmRVdncxM2pSVUlMOWFwWjVXajZQcjRsclhVekRjOG40bmFCV3BodnA5c09EdGlkOVVlK0JDQW9jY041VVl2NTNxT283aC9YL1F1KzMvWkJjREkyMWw3VjFTQzhFR0xvRUhtKzZoY1RDYngxekhrRTZicjcrZU82c3lqSG5uZXNkdHFWdFF2eDhkOThYNDc5T2t1SHhadGFEUERyRmlBRC9GcnByak5ZM0xyejJQUk90YmlEZ05HZFRxZlF1d3pDMnFYTzJNOVpFcFJYU2ZIWnF1ZjlUZXhWaU5NQVpWRTVDL3pJRU8yMEJGUFhxY2RFSmNucWluTWtqNnFITkNVclRsL2RqMkp4Y0xCSllXNjVJaFlSeTQzZlN2eVJNYjI1WWlJZ0F4blAtLTRWNCtpVHBCdEMwckQ1NW1PKy94U2c9PQ%3D%3D--a92468ae7e8339cae6e6c384d11d085e3f7a1c3f";
-    //let user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:'_bsw_session_v1_production='+prompt('Input "_bsw_session_v1_production" cookie:')}});
+        sessionID = prompt('Input "_bsmart_session_web" cookie:');
     let user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:'_bsmart_session_web='+sessionID}});
 
     if (user.status != 200) {
