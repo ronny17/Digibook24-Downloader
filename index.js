@@ -118,7 +118,7 @@ async function downloadAndDecryptFile(url) {
         sessionID = dataFile;
     else
         sessionID = prompt('Input "_bsmart_session_web" cookie:');
-    let user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:'_bsmart_session_web='+sessionID}});
+    let user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:"_bsmart_session_web="+sessionID}});
     if (user.status != 200) {
         console.log("Impossibile connettersi");
         return;
