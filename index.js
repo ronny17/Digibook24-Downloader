@@ -4,8 +4,8 @@ const aesjs = require('aes-js');
 const PDFDocument = require('pdf-lib').PDFDocument;
 const fs = require('fs');
 const sanitize = require("sanitize-filename");
+const puppeteer = require('puppeteer');
 // const md5 = require('md5');
-
 
 let key = new Uint8Array([30, 0, 184, 152, 115, 19, 157, 33, 4, 237, 80, 26, 139, 248, 104, 155]);
 
@@ -106,29 +106,54 @@ async function downloadAndDecryptFile(url) {
 
 }
 
+function searchJSON (json, where, is) {
+    for(var itm in json){
+        var item = json[itm];
+        for(var key in item){
+            if(key == where){
+                if(item[key] == is)
+                    return item["value"];
+            }
+        }
+    } 
+}
+
 (async () => {
-    var dataFile = "";
-    try {
-      dataFile = fs.readFileSync('sessionID.txt', 'utf8');
-    } catch (err) {
-        //
-    }
     var sessionID = "";
-    if(dataFile != null && !dataFile.includes("Paste here cookie session value"))
-        sessionID = dataFile;
-    else{
-        do{
-            sessionID = prompt('Input "_bsmart_session_web" cookie:');
-        }while(sessionID.startsWith("_bsmart_session_web"));
-    }
-    sessionID = sessionID.trim();
-    try
-    {
-        sessionID = decodeURIComponent(sessionID);
-        sessionID = encodeURIComponent(sessionID);
-    }catch(err)
-    {
-        //
+    do{
+        var resp = prompt('UTILIZZARE LOGIN DA CLI (s/n) ? : ');
+    }while(resp != "s" && resp != "n");
+    if(resp == 's'){
+        const browser = await puppeteer.launch({headless: false});
+        const page = await browser.newPage();
+        await page.goto('https://web.digibook24.it/users/sign_in');
+        prompt("A LOGIN COMPLETATO E PAGINA CARICATA PREMERE INVIO");
+        const cookies = await page.cookies();
+        sessionID = searchJSON(cookies, "name", "_bsmart_session_web");
+        await browser.close();
+    }else{
+        var dataFile = "";
+        try {
+          dataFile = fs.readFileSync('sessionID.txt', 'utf8');
+        } catch (err) {
+            //
+        }
+        if(dataFile != null && !dataFile.includes("Paste here cookie session value"))
+            sessionID = dataFile;
+        else{
+            do{
+                sessionID = prompt('Input "_bsmart_session_web" cookie:');
+            }while(sessionID.startsWith("_bsmart_session_web"));
+        }
+        sessionID = sessionID.trim();
+        try
+        {
+            sessionID = decodeURIComponent(sessionID);
+            sessionID = encodeURIComponent(sessionID);
+        }catch(err)
+        {
+            //
+        }
     }
     var user = null;
     try{
@@ -157,7 +182,7 @@ async function downloadAndDecryptFile(url) {
         });
         
     }
-    let bookId = prompt(`Inserisci l\'id del libro : ${(books.length == 0 ? " manually" : "")}:`);
+    let bookId = prompt(`Inserisci l\'id del libro : ${(books.length == 0 ? " manually" : "")}`);
 
     let book = await fetch(`https://api.digibook24.it/api/v4/books/by_book_id/${bookId}`, {headers});
 
