@@ -110,9 +110,8 @@ function searchJSON (json, where, is) {
     for(var itm in json){
         var item = json[itm];
         for(var key in item){
-            if(key == where){
-                if(item[key] == is)
-                    return item["value"];
+            if(key == where && item[key] == is){
+                return item["value"];
             }
         }
     } 
