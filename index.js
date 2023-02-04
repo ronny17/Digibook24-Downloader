@@ -116,9 +116,27 @@ async function downloadAndDecryptFile(url) {
     var sessionID = "";
     if(dataFile != null && !dataFile.includes("Paste here cookie session value"))
         sessionID = dataFile;
-    else
-        sessionID = prompt('Input "_bsmart_session_web" cookie:');
-    let user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:"_bsmart_session_web="+sessionID}});
+    else{
+        do{
+            sessionID = prompt('Input "_bsmart_session_web" cookie:');
+        }while(sessionID.startsWith("_bsmart_session_web"));
+    }
+    sessionID = sessionID.trim();
+    try
+    {
+        sessionID = decodeURIComponent(sessionID);
+        sessionID = encodeURIComponent(sessionID);
+    }catch(err)
+    {
+        //
+    }
+    var user = null;
+    try{
+        user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:"_bsmart_session_web="+sessionID}});
+    }catch(e){
+        console.log("Errore durante la creazione della sessione");
+        return;
+    }
     if (user.status != 200) {
         console.log("Impossibile connettersi");
         return;
