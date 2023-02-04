@@ -121,7 +121,7 @@ function searchJSON (json, where, is) {
 (async () => {
     var sessionID = "";
     do{
-        var resp = prompt('UTILIZZARE LOGIN DA CLI (s/n) ? : ');
+        var resp = prompt('UTILIZZARE LOGIN DA CHROMIUM (s/n) ? : ');
     }while(resp != "s" && resp != "n");
     if(resp == 's'){
         const browser = await puppeteer.launch({headless: false});
