@@ -13,12 +13,20 @@ With this version you can download EdiErmes university books
 3. Run `npm i` to install all the required dependencies
 
 ### Usage
-
+#### With Chromium login
+1. Run `node index.js`
+2. Answer `s` to `UTILIZZARE LOGIN DA CHROMIUM (s/n) ? :`
+3. Login into website 
+4. Navigate to book library 
+5. Press enter `A LOGIN COMPLETATO E PAGINA CARICATA PREMERE INVIO`
+6. The program should load `_bsmart_session_web` automatically
+#### Without Chromium login
 1. Open the dev tools (F12) and go to the storage(Firefox) or application(Chromium) tab, there click on `Cookie`, then `https://web.digibook24.it`, then copy in the file named `sessionID.txt` the cookie called `_bsmart_session_web`. The file `sessionID.txt` must contain only the cookie
 2. Open a terminal window in the folder where you extracted the repo
 3. Run `node index.js`
-4. Input the id of the book you'd like to download, either from the list or from the url, after `/books/`. It's ususally a 4 digit number
-5. Press enter and the script will start working, a file will be saved in the same folder as the one with the `index.js` with the name of the book, containing the full book downloaded.
+4. Answer `n` to `UTILIZZARE LOGIN DA CHROMIUM (s/n) ? :`
+5. Input the id of the book you'd like to download, either from the list or from the url, after `/books/`. It's ususally a 4 digit number
+6. Press enter and the script will start working, a file will be saved in the same folder as the one with the `index.js` with the name of the book, containing the full book downloaded.
 
 Enjoy
 
