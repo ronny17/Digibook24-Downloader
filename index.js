@@ -128,7 +128,7 @@ function searchJSON (json, where, is) {
         await page.goto('https://web.digibook24.it/users/sign_in');
         prompt("A LOGIN COMPLETATO E PAGINA CARICATA PREMERE INVIO");
         const cookies = await page.cookies();
-        sessionID = searchJSON(cookies, "name", "_bsmart_session_web");
+        sessionID = searchJSON(cookies, "name", "_bsw_session_v1_production");
         await browser.close();
     }else{
         var dataFile = "";
@@ -141,8 +141,8 @@ function searchJSON (json, where, is) {
             sessionID = dataFile;
         else{
             do{
-                sessionID = prompt('Input "_bsmart_session_web" cookie:');
-            }while(sessionID.startsWith("_bsmart_session_web"));
+                sessionID = prompt('Input "_bsw_session_v1_production" cookie:');
+            }while(sessionID.startsWith("_bsw_session_v1_production"));
         }
         sessionID = sessionID.trim();
         try
@@ -156,7 +156,7 @@ function searchJSON (json, where, is) {
     }
     var user = null;
     try{
-        user = await fetch("https://api.digibook24.it/api/v4/user", {headers: {cookie:"_bsmart_session_web="+sessionID}});
+        user = await fetch("https://web.digibook24.com/api/v6/user", {headers: {cookie:"_bsw_session_v1_production="+sessionID}});
     }catch(e){
         console.log("Errore durante la creazione della sessione");
         return;
@@ -170,7 +170,7 @@ function searchJSON (json, where, is) {
 
     let headers = {"auth_token": user.auth_token};
 
-    let books = await fetch(`https://api.digibook24.it/api/v4/books?page_thumb_size=medium&per_page=25000`, {headers}).then(res => res.json());
+    let books = await fetch(`https://web.digibook24.com/api/v6/books?page_thumb_size=medium&per_page=25000`, {headers}).then(res => res.json());
 
     if (books.length == 0) {
         console.log('Non ci sono libri nella tua libreria online!');
@@ -183,7 +183,7 @@ function searchJSON (json, where, is) {
     }
     let bookId = prompt(`Inserisci l\'id del libro : ${(books.length == 0 ? " manually" : "")}`);
 
-    let book = await fetch(`https://api.digibook24.it/api/v4/books/by_book_id/${bookId}`, {headers});
+    let book = await fetch(`https://web.digibook24.com/api/v6/books/by_book_id/${bookId}`, {headers});
 
     if (book.status != 200) {
         console.log("ID libro non valido");
@@ -196,7 +196,7 @@ function searchJSON (json, where, is) {
     let page = 1;
     while (true) {
         //console.log(page);
-        let tempInfo = await fetch(`https://api.digibook24.it/api/v4/books/${book.id}/${book.current_edition.revision}/resources?per_page=500&page=${page}`, {headers}).then(res => res.json());
+        let tempInfo = await fetch(`https://web.digibook24.com/api/v6/books/${book.id}/${book.current_edition.revision}/resources?per_page=500&page=${page}`, {headers}).then(res => res.json());
         info = info.concat(tempInfo);
         if (tempInfo.length < 500) break;
         page++;
