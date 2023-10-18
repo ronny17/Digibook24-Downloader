@@ -120,13 +120,13 @@ function searchJSON (json, where, is) {
 (async () => {
     var sessionID = "";
     do{
-        var resp = prompt('UTILIZZARE LOGIN DA CHROMIUM (s/n) ? : ');
-    }while(resp != "s" && resp != "n");
-    if(resp == 's'){
+        var resp = prompt('USE CHROMIUM LOGIN (y/n) ? : ');
+    }while(resp != "y" && resp != "n");
+    if(resp == 'y'){
         const browser = await puppeteer.launch({headless: false});
         const page = await browser.newPage();
         await page.goto('https://web.digibook24.it/users/sign_in');
-        prompt("A LOGIN COMPLETATO E PAGINA CARICATA PREMERE INVIO");
+        prompt("WHEN LOGIN IS COMPLETE AND PAGE LOADED, PRESS ENTER");
         const cookies = await page.cookies();
         sessionID = searchJSON(cookies, "name", "_bsw_session_v1_production");
         await browser.close();
