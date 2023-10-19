@@ -196,7 +196,7 @@ function searchJSON (json, where, is) {
     let page = 1;
     while (true) {
         //console.log(page);
-        let tempInfo = await fetch(`https://web.digibook24.com/api/v6/books/${book.id}/${book.current_edition.revision}/resources?per_page=500&page=${page}`, {headers}).then(res => res.json());
+        let tempInfo = await fetch(`https://web.digibook24.com/api/v5/books/${book.id}/${book.current_edition.revision}/resources?per_page=500&page=${page}`, {headers}).then(res => res.json());
         info = info.concat(tempInfo);
         if (tempInfo.length < 500) break;
         page++;
